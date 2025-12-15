@@ -6,13 +6,13 @@ export enum ReadingStatus {
   READING = '閱讀中'
 }
 
-// 更新預設建議選項
+// 更新書籍類型
 export enum BookType {
   COMIC = '漫畫',
   PHYSICAL = '實體書',
   ORIGINAL_NOVEL = '原創小說',
-  NON_FICTION = '非小說',
-  FOREIGN = '外文書'
+  FOREIGN = '外文書',
+  NON_FICTION = '非小說'
 }
 
 export interface Book {

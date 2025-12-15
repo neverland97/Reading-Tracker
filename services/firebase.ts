@@ -1,23 +1,19 @@
+// @ts-ignore
 import { initializeApp, getApps, getApp } from "firebase/app";
-import { 
-  getAuth, 
-  GoogleAuthProvider, 
-  signInWithPopup, 
-  signOut, 
-  onAuthStateChanged 
-} from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
+// @ts-ignore
 import { getFirestore } from "firebase/firestore";
 import { firebaseConfig } from "../config/firebase";
 
 // Initialize Firebase
-// ✅ 修改：使用 getApps() 和 getApp() 來檢查是否已初始化 (Modular 語法)
+// Use getApps() to check if app is already initialized (singleton pattern)
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
-// ✅ 修改：使用 getAuth() 和 getFirestore() 獲取實例
+// Get auth and db instances using the initialized app
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// ✅ 修改：直接 new GoogleAuthProvider() (不需要 firebase.auth 前綴)
+// Provider
 const provider = new GoogleAuthProvider();
 
 const MOCK_USER_KEY = 'reading_tracker_demo_user';
@@ -25,7 +21,6 @@ export const MOCK_USER_ID_PREFIX = 'demo-wizard';
 
 export const signInWithGoogle = async () => {
   try {
-    // ✅ 修改：將 auth 和 provider 作為參數傳入 signInWithPopup
     const result = await signInWithPopup(auth, provider);
     
     // Clear mock data if real login succeeds
@@ -59,7 +54,6 @@ export const signInWithGoogle = async () => {
 
 export const logout = async () => {
   try {
-    // ✅ 修改：將 auth 作為參數傳入 signOut
     await signOut(auth);
     localStorage.removeItem(MOCK_USER_KEY);
   } catch (error) {
@@ -69,7 +63,6 @@ export const logout = async () => {
 };
 
 export const subscribeToAuthChanges = (callback: (user: any) => void) => {
-  // ✅ 修改：將 auth 作為參數傳入 onAuthStateChanged
   return onAuthStateChanged(auth, (user) => {
     if (user) {
       callback(user);

@@ -1,15 +1,7 @@
+
 import { db, MOCK_USER_ID_PREFIX } from './firebase';
 import { Book } from '../types';
-// 👇 新增：引入必要的 Firestore 模組化函式
-import { 
-  collection, 
-  doc, 
-  query, 
-  orderBy, 
-  onSnapshot, 
-  setDoc, 
-  deleteDoc 
-} from 'firebase/firestore'; 
+import { collection, doc, query, orderBy, onSnapshot, setDoc, deleteDoc } from "firebase/firestore";
 
 // Simple event system for mock mode to mimic real-time updates within the session
 type Listener = (books: Book[]) => void;
@@ -45,14 +37,10 @@ export const subscribeToBooks = (user: any, onUpdate: (books: Book[]) => void) =
         };
     }
 
-    // ✅ 修改：使用 Modular Syntax (模組化語法)
-    // 舊寫法: db.collection('users').doc(user.uid).collection('books')
+    // Modular Syntax (V9+)
     const booksRef = collection(db, 'users', user.uid, 'books');
-    
-    // 舊寫法: booksRef.orderBy(...)
     const q = query(booksRef, orderBy('createdAt', 'desc'));
 
-    // 舊寫法: q.onSnapshot(...)
     const unsubscribe = onSnapshot(q, (snapshot) => {
         const books = snapshot.docs.map(doc => doc.data() as Book);
         onUpdate(books);
@@ -86,11 +74,10 @@ export const saveBookToRemote = async (user: any, book: Book) => {
          return;
     }
 
-    // ✅ 修改：使用 Modular Syntax (模組化語法)
-    // 舊寫法: db.collection(...).doc(...).set(...)
-    // 新寫法: 先建立參照 (Reference)，再執行 setDoc
-    const bookRef = doc(db, 'users', user.uid, 'books', book.id);
-    await setDoc(bookRef, book);
+    // Modular Syntax (V9+)
+    // path: users/{uid}/books/{bookId}
+    const bookDocRef = doc(db, 'users', user.uid, 'books', book.id);
+    await setDoc(bookDocRef, book);
 };
 
 /**
@@ -111,8 +98,7 @@ export const deleteBookFromRemote = async (user: any, bookId: string) => {
          return;
     }
 
-    // ✅ 修改：使用 Modular Syntax (模組化語法)
-    // 舊寫法: db.collection(...).doc(...).delete()
-    const bookRef = doc(db, 'users', user.uid, 'books', bookId);
-    await deleteDoc(bookRef);
+    // Modular Syntax (V9+)
+    const bookDocRef = doc(db, 'users', user.uid, 'books', bookId);
+    await deleteDoc(bookDocRef);
 };

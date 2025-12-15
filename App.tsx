@@ -810,7 +810,6 @@ const App: React.FC = () => {
         setFontSize={setFontSize}
         onlyFavorites={filters.onlyFavorites}
         toggleFavorites={() => setFilters(prev => ({ ...prev, onlyFavorites: !prev.onlyFavorites }))}
-        onImportDemo={handleImportLegacy} // Renamed prop
         onImportJson={handleImportJson} // New manual import handler
         onExport={handleExport}
         isImporting={isImporting}

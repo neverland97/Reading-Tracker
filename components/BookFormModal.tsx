@@ -25,7 +25,7 @@ const defaultFormData: Omit<Book, 'id' | 'createdAt' | 'updatedAt'> = {
   rating: 0,
   review: '',
   quotes: [],
-  type: BookType.COMIC,
+  type: BookType.COMIC, // Updated default to COMIC
   keywords: [],
   readAt: undefined,
 };

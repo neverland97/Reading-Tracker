@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { IconSun, IconMoon, IconScroll, IconDownload, IconBookmark } from './Icons';
+import { IconSun, IconMoon, IconDownload, IconBookmark } from './Icons';
 import { Button } from './Button';
 
 interface SettingsModalProps {
@@ -12,7 +12,6 @@ interface SettingsModalProps {
   setFontSize: (size: 'small' | 'normal' | 'large') => void;
   onlyFavorites: boolean;
   toggleFavorites: () => void;
-  onImportDemo: () => void; // Rename for clarity
   onImportJson: (json: string) => void; // New prop for manual JSON import
   onExport: () => void;
   isImporting: boolean;
@@ -27,7 +26,6 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   setFontSize,
   onlyFavorites,
   toggleFavorites,
-  onImportDemo,
   onImportJson,
   onExport,
   isImporting
@@ -162,27 +160,15 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                             `}
                             placeholder='[{"title": "書名", ...}]'
                         />
-                        <div className="flex gap-2">
-                             <Button 
-                                onClick={handleJsonImportSubmit} 
-                                variant="primary" 
-                                isLoading={isImporting}
-                                className="flex-1 justify-center text-xs"
-                                disabled={!jsonInput.trim()}
-                            >
-                                確認匯入
-                            </Button>
-                             {/* Legacy/Demo Import Fallback */}
-                            <Button 
-                                onClick={onImportDemo} 
-                                variant="ghost" 
-                                isLoading={isImporting}
-                                className="flex-1 justify-center text-xs"
-                                disabled={!!jsonInput.trim()} // Disable if typing in manual box to avoid confusion
-                            >
-                                匯入範例
-                            </Button>
-                        </div>
+                        <Button 
+                            onClick={handleJsonImportSubmit} 
+                            variant="primary" 
+                            isLoading={isImporting}
+                            className="w-full justify-center text-xs"
+                            disabled={!jsonInput.trim()}
+                        >
+                            確認匯入
+                        </Button>
                     </div>
 
                 </div>
